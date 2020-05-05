@@ -1,29 +1,7 @@
 #include<iostream>
-#include<conio.h>
 
 using namespace std;
 
-void quickSort(int s[], int l, int r)
-{
-     int x,t,i,j;
-     i=l;
-     j=r;
-     x=s[(l+r)/2];
-     do{
-        while(s[i]<x)i++;
-        while(s[j]>x)j--;
-        if(i<=j){
-          t=s[i];
-          s[i]=s[j];
-          s[j]=t;
-          i++;
-          j--;
-        }
-     } 
-     while(i<=j);
-     if(i<r)quickSort(s,i,r);
-     if(l<j)quickSort(s,l,j); 
-}
 
 int Partition(int A[],int a ,int b)
 {   
@@ -62,8 +40,8 @@ void quickSort3(int A[],int a,int b)
 {
     if (a < b){
          int k = Partition(A,a,b);
-         quickSort2(A,a,k-1);
-         quickSort2(A,k+1,b);
+         quickSort3(A,a,k-1);
+         quickSort3(A,k+1,b);
     }
 }
 
@@ -85,8 +63,8 @@ void quickSort4(int s[], int first, int last)
         }
      } 
      while(left<=right);
-     if(left<last)quickSort(s,left,last);
-     if(first<right)quickSort(s,first,right); 
+     if(left<last)quickSort4(s,left,last);
+     if(first<right)quickSort4(s,first,right); 
 }
 
 int main()
@@ -94,7 +72,6 @@ int main()
     int a[7] = {1,4,7,6,8,3,2};
     quickSort2(a,0,6);
     for(int i=0;i<7;i++)cout<<a[i]<<" ";    
-    getch();
     return 0;
    
 }

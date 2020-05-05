@@ -2,8 +2,8 @@
 #include<conio.h>
 
 using namespace std;
-
-void Merge(int a[],int start,int mid,int end)
+// a[] is the array to sort, b[] is a temporary array
+void Merge(int a[],int start,int mid,int end) 
 {   
     int b[end - start +1];
     int i=start,j=mid+1,k=0;

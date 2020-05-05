@@ -1,6 +1,4 @@
-// Ho ten : Bui Ngoc Hai
-// lop    : K51CD 
-// bai tap: duong di ngan nhat
+// Bui Ngoc Hai
 
 #include<iostream>
 #include<fstream>
@@ -29,7 +27,7 @@ float Dijkstra(int start,int end,int NumberOfPoint,float** weight,int* path)
         }    
     int u=start;
     while(u != end){
-        int x;
+        int x; // temporary node
         for(int i=0;i<NumberOfPoint;i++)
             if(Known[i]==0){
                 x=i;
@@ -38,17 +36,17 @@ float Dijkstra(int start,int end,int NumberOfPoint,float** weight,int* path)
         for(int i=0;i<NumberOfPoint;i++)
            if(Known[i]==0 && dist[x]>dist[i])
               x=i;
-        u=x;               //chon u la phan tu co nhan~ nho nhat trong tap UnKnown       
-        Known[u]=1;        // dua u vao tap Known  
-        // dan' nhan~
+        u=x;               //select u with smallest dist in UnKnown set       
+        Known[u]=1;        // add u to Known  
+        // set dist[u]
         for(int v=0;v<NumberOfPoint;v++)
             if(Known[v]==0 && weight[u][v]>0 && (dist[u]+weight[u][v])< dist[v]) {
                 dist[v]= dist[u] + weight[u][v];
                 pre[v]=u;        
             }                                   
-    }  // ket thuc vong while
+    }  // end while
 
-    // luu duong di vao mang path
+    // save shorstest path to an array
     for(int i=0;i<NumberOfPoint;i++)path[i]=0;
     path[0]=end+1;
     int k=1;
@@ -60,7 +58,7 @@ float Dijkstra(int start,int end,int NumberOfPoint,float** weight,int* path)
     return dist[end];        
 }
 
-// ----------------nhap du lieu vao tu file---------------------------------------------
+// ----------------input---------------------------------------------
 void inputFromFile(char* FileName,int& NumberOfPoint,int& start,int& end,float** &weight)
 {
         ifstream inFile(FileName);
@@ -84,7 +82,7 @@ void inputFromFile(char* FileName,int& NumberOfPoint,int& start,int& end,float**
         }                
 }    
 
-//----------xuat du lieu ra file--------------------------------------
+//----------output to file--------------------------------------
 void outputToFile(char* FileName,int NumberOfPoint,float way,int* path)
 {
         ofstream outFile(FileName);

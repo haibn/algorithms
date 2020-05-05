@@ -3,7 +3,6 @@
 
 #include<iostream>
 #include<assert.h>
-#include<conio.h>
 using namespace std;
 
 template<class item>
@@ -159,6 +158,5 @@ int main()
     cout<<" After delete"<<endl;
     head->show();
 
-    getch();
     return 0;
 }    

@@ -1,27 +1,25 @@
 //==================================
 //name:    Bui Ngoc Hai
 //class:   K51CD nhom 3
-//project: bt tuan 3
-//purpose: bai 2c
+//purpose: permutation
 //==================================
 
 #include <iostream>
-#include<conio.h>
 using namespace std;
 
-int n;
-int a[10];
+int n;  // the number to calculate permuttation
+int array[10];
 int mark[10];
 
 void permut(int d)
 {
    for (int i=0;i<n;i++)
       if (mark[i]==0){
-          a[d]=i+1;
+          array[d]=i+1;
           mark[i]=1;
       if (d==n-1){
          for (int i=0;i<n;i++)
-            cout<<" "<<a[i]<<" ";
+            cout<<" "<<array[i]<<" ";
             cout<<endl;
       } 
       else permut(d+1);
@@ -40,7 +38,6 @@ int main()
    cout<<" "<<n<<"! permutations are : \n"<<endl;    
    for (int i=0;i<n;i++) mark[i]=0;
    permut(0);
-   getch();
    return 0;
 }
 

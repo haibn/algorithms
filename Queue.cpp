@@ -1,5 +1,4 @@
 #include<iostream>
-#include<conio.h>
 #include<assert.h>
 
 using namespace std;
@@ -73,7 +72,6 @@ int main()
     cout<<Q.getHead()<<endl;
     cout<<Q.deQueue()<<endl;
     cout<<Q.length()<<endl;    
-    getch();
     return 0;
 }    
     

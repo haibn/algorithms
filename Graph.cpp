@@ -1,133 +1,134 @@
 
 #include<iostream>
-#include<conio.h>
 #include<assert.h>
 
 using namespace std;
 
-void breadthFirstSearch(int v,int n,int dd[],int a[][])
+//breasth first search from vertex v, n is the number of vertex (size of graph), marked[] is an array to mark if v is visited or not
+void breadthFirstSearch(int v,int size,int marked[],int graph[][])
 {   
     Queue Q;
     Q.enQueue(v);
-    dd[v]=1;
+    marked[v]=1;
     while(!Q.empty())
     {
-        int w = Q.getHead();
-        for(int u=0;u<n;u++)
-           if(a[w][u]==1 && dd[u]==0){
+        int w = Q.getHead(); //w is temporary vertex
+        for(int u=0;u<size;u++)
+           if(graph[w][u]==1 && marked[u]==0){
               Q.enQueue(u);
-              dd[u]=1;        
+              marked[u]=1;        
            }
         Q.deQueue();            
     }     
 }
 
-void breadthFirstSearch_traversal(int n,int dd[],int a[][])
+void breadthFirstSearch_traversal(int size,int marked[],int graph[][])
 {
-    for(int v=0;v<n;v++)dd[v]=0;
-    for(int v=0;v<n;v++)
-        if(dd[v]==0)
-            breadthFirstSearch(v,n,dd,a);            
+    for(int v=0;v<size;v++)marked[v]=0;
+    for(int v=0;v<size;v++)
+        if(marked[v]==0)
+            breadthFirstSearch(v,size,marked,graph);            
 }
 
-void DepthFirstSearch(int v,int n,int dd[],int a[][])
+void DepthFirstSearch(int v,int size,int marked[],int graph[][])
 {   
-    dd[u]=1;
-    for(int u=0;u<n;u++)
-        if(a[v][u]==1 && dd[u]==0){
-            DepthFirstSearch(u,n,dd,a);
+    marked[v]=1;
+    for(int u=0;u<size;u++)
+        if(graph[v][u]==1 && marked[u]==0){
+            DepthFirstSearch(u,size,marked,graph);
         }    
 }
 
-void DepthFirstSearch_traversal(int n,int dd[],int a[][])
+void DepthFirstSearch_traversal(int size,int marked[],int graph[][])
 {
-    for(int v=0;v<n;v++)dd[v]=0;
-    for(int v=0;v<n;v++)
-        if(dd[v]==0)
-           DepthFirstSearch(v,n,dd,a);            
+    for(int v=0;v<size;v++)marked[v]=0;
+    for(int v=0;v<size;v++)
+        if(marked[v]==0)
+           DepthFirstSearch(v,size,marked,graph);            
 }                    
 
-void topoSort(list T,int u,int n,int dd[],int a[][])
+void topoSort(list T,int u,int size,int marked[],int graph[][])
 {
-    dd[u]=1;
-    for(int v=0;v<n;v++)
-        if(a[u][v]==1 && dd[v]==0)
-           topoSort(T,v,n,dd,a);
+    marked[u]=1;
+    for(int v=0;v<size;v++)
+        if(graph[u][v]==1 && marked[v]==0)
+           topoSort(T,v,size,marked,graph);
     T.insert(0,u);            
 }
 
-void topoSortGraph(list T,int n,int dd[],int a[][])
+void topoSortGraph(list T,int size,int marked[],int graph[][])
 {
-    for(int u=0;u<n;u++)dd[u]=0;
+    for(int u=0;u<size;u++)marked[u]=0;
     while(!T.empty()) T.del(T.length()-1);
-    for(int u=0;u<n;u++)
-        if(dd[u]==0)
-           topoSort(T,u,n,dd,a);           
+    for(int u=0;u<size;u++)
+        if(marked[u]==0)
+           topoSort(T,u,size,marked,graph);           
 }    
-
-void FindConnectedComponent(int v,int ci,int n,int dd[],int a[][])
+// ci is the label of the connected component
+void FindConnectedComponent(int v,int ci,int size,int marked[],int graph[][])
 {
     Queue Q;
     Q.enQueue(v);
-    dd[v]=ci;
+    marked[v]=ci;
     while(!Q.empty())
     {
-        int w = Q.getHead();
-        for(int u=0;u<n;u++)
-           if(a[w][u]==1 && dd[u]==0){
+        int w = Q.getHead(); //w is the temporary visiting vertex
+        for(int u=0;u<size;u++)
+           if(graph[w][u]==1 && marked[u]==0){
               Q.enQueue(u);
-              dd[u]=ci;        
+              marked[u]=ci;        
            }
         Q.deQueue();            
     }   
 }     
 
-void FindAllConnectedComponent(int n,int dd[],int a[][])
+void FindAllConnectedComponent(int n,int marked[],int graph[][])
 {
-    for(int v=0;v<n;v++)dd[v]=0;
+    for(int v=0;v<size;v++)marked[v]=0;
     int ci=1;
-    for(int v=0;v<n;v++)
-        if(dd[v]==0){
-            FindConnectedComponent(v,ci,n,dd,a);
+    for(int v=0;v<size;v++)
+        if(marked[v]==0){
+            FindConnectedComponent(v,ci,size,marked,graph);
             ci++;
         }    
 }
     
 const int infinite = 32000;
 
-float Dijkstra(int start,int end,int n,float weight[][],int path[])
+float Dijkstra(int start,int end,int size,float weight[][],int path[])
 {
-    int dd[n];
-    for(int i=0;i<n;i++) dd[i]=0;
-    dd[start]=1;
-    float dist[n];
-    for(int i=0;i<n;i++) dist[i]= infinite;
+    int marked[size];  //marked[] is an array to mark if v is visited or not
+    for(int i=0;i<size;i++) marked[i]=0;
+    marked[start]=1;
+    float dist[size];
+    for(int i=0;i<size;i++) dist[i]= infinite;
     dist[start]=0;
-    int pre[n];
-    for(int v=0;v<n;v++)
+    int pre[size];
+    for(int v=0;v<size;v++)
         if(weight[start][v]>0){
             dist[v] = weight[start][v];
             pre[v]  = start;
         }
     int u=start;
     while(u != end){
-        int x;
-        for(int i=0;i<n;i++)
-            if(dd[i]==0){
+        int x; // temporary node
+        for(int i=0;i<size;i++)
+            if(marked[i]==0){
                 x=i;
                 break;
             }            
-        for(int i=0;i<n;i++)
-           if(dd[i]==0 && dist[x]>dist[i]) x=i;
-        u=x;        
-        dd[u]=1;   
-        for(int v=0;v<n;v++)
-            if(dd[v]==0 && weight[u][v]>0 && (dist[u]+weight[u][v])< dist[v]) {
+        for(int i=0;i<size;i++)
+           if(marked[i]==0 && dist[x]>dist[i]) x=i;
+        u=x;        //select u with smallest dist in UnKnown set 
+        marked[u]=1;   // add u to Known 
+        for(int v=0;v<size;v++)
+            if(marked[v]==0 && weight[u][v]>0 && (dist[u]+weight[u][v])< dist[v]) {
                 dist[v]= dist[u] + weight[u][v];
                 pre[v]=u;        
             }                                   
     }
-    for(int i=0;i<n;i++)path[i]=0;
+	// save shorstest path to an array
+    for(int i=0;i<size;i++)path[i]=0;
     path[0]=end+1;
     int k=1;
     int x=end;
